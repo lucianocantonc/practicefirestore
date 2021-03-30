@@ -11,7 +11,13 @@ def save_user_info():
     
     data = request.get_json()
 
-    db.collection('user').document(data['username']).set(data)
+    try:
+        db.collection('user').document(data['username']).set(data)
+    except:
+        error_message = {
+            "message" : "Must specify an 'username'!"
+            }
+        return jsonify(error_message), 400
 
     response = {
         'message' : 'Thank You'
